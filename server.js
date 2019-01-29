@@ -3,24 +3,7 @@ const app = express();
 const port = 3000;
 
 const generateComponent = function(name) {
-  return `class exampleElement extends HTMLElement {
-  connectedCallback() {
-    this.innerHTML = '
-      <style>
-        h1 {
-          font-size: 2.5rem;
-          color: hotpink;
-          font-family: monospace;
-          text-align: center;
-          text-decoration: pink solid underline;
-          text-decoration-skip: ink;
-        }
-      </style>
-      <h1>Hello, your ${name} custom element works!</h1>
-    ';
-  }
-}
-customElements.define('${name}', exampleElement);`
+  return `const TestElProto = Object.create(HTMLElement.prototype); TestElProto.createdCallback = function() { this.innerHTML = "<b>I'm an ${name}!</b>"; }; const XFoo = document.registerElement('${name}', { prototype: TestElProto });`;
 }
 
 app.get('*.js', function (req, res) {
